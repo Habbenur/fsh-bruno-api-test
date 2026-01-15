@@ -1,0 +1,22 @@
+meta {
+  name: get all students with api-key
+  type: http
+  seq: 8
+}
+
+get {
+  url: https://test-379574553568.us-central1.run.app/student
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: API_KEY
+  value: {{api-key}}
+  placement: header
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

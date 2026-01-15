@@ -1,0 +1,22 @@
+meta {
+  name: Remove student with base_url
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{base_url}}/student/8
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: API_KEY
+  value: habbe-testar-2026
+  placement: header
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
