@@ -1,0 +1,22 @@
+meta {
+  name: Retrive all students
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://test-379574553568.us-central1.run.app/student
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: API_KEY
+  value: habbe-testar-2026
+  placement: header
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
