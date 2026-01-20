@@ -3,13 +3,36 @@ import requests
 
 #BaseURL is a coomon way of structure URLs to an API
 base_url = "https://test-379574553568.us-central1.run.app/student"
+API_KEY = "habbe-testar-2026"
 
+# Helper function to create a student for testing delete
+def create_student(name, age, grade):
+    '''Helper function to create a student'''
+    input = {
+        "name": name,
+        "age": age,
+        "grade": grade
+    }
+    headers = {"API_KEY": API_KEY, "Content-Type": "application/json"}
+    response = requests.post(base_url, json=input, headers=headers)
+    print("Created student with name:", input["name"])
+    return response.json()["student_id"]
+# Test function to delete a created student
+def test_delete_created_student():
+    student_id = create_student(name="Markus", age=21, grade="A")
+    headers = {"API_KEY": API_KEY}
+    response = requests.delete(f"{base_url}/{student_id}", headers=headers)
+    assert response.status_code == 200, f"Failed to delete student with ID {student_id}"
+    print(f"Student with ID {student_id} deleted successfully.")  
+
+# Test functions for getting all students.
 def test_get_all_students():
-    headers = {"API_KEY": "habbe-testar-2026"}
+    headers = {"API_KEY": API_KEY}
     response = requests.get(base_url, headers=headers)
     assert response.status_code == 200, "Request failed"
     print(response.json())
 
+# Test function to create a new student
 def test_create_a_student():
     '''Create a new student using Frans API.
     Endpoint: 
@@ -29,6 +52,7 @@ def test_create_a_student():
     #Possible also to assert that "id" not null, zero or below zero.
     print(response.json())
 
+# Test function to get a student by ID
 def test_get_student_by_id():
     '''Get a student by ID using Frans API.
     Endpoint: 
@@ -39,6 +63,22 @@ def test_get_student_by_id():
     assert response.status_code == 200, f"Failed to get student with ID {student_id}"
     print(response.json())
 
+# Test function to get a student by ID after creating one
+def test_get_a_student():
+    '''Get a student by ID using Frans API.
+    Endpoint: /student/{id} '''
+    headers = {"API_KEY": "habbe-testar-2026"}
+    student = {"name": "Student Cargo", "age": 22, "grade": "B"}
+    # First, create a new student to ensure there is a student to retrieve
+    create_response = requests.post(base_url, json=student, headers=headers)
+    student_id = str(create_response.json() ["student_id"])
+    # Now, retrieve the student by ID
+    response = requests.get(f"{base_url}/{student_id}", headers=headers)
+    assert response.status_code == 200
+
+    print(response.json())
+    
+# Test function to update a student by ID
 def test_update_student_by_id():
     '''Update a student by ID using Frans API.
     Endpoint: 
@@ -55,6 +95,7 @@ def test_update_student_by_id():
     assert response.status_code == 200, f"Failed to update student with ID {student_id}"
     print(response.json())
 
+# Test function to delete a student by ID
 def test_delete_student_by_id():
     '''Delete a student by ID using Frans API.
     Endpoint: 
