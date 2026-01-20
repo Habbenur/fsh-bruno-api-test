@@ -95,6 +95,25 @@ def test_update_student_by_id():
     assert response.status_code == 200, f"Failed to update student with ID {student_id}"
     print(response.json())
 
+#Updating a student after creating one
+def test_update_a_student():
+    '''Update a student by ID using Frans API.
+    Endpoint: /student/{id} ''' 
+    headers = {"API_KEY": API_KEY}
+    student = {"name": "Student Delta", "age": 23, "grade": "C"}
+    # First, create a new student to ensure there is a student to update
+    create_response = requests.post(base_url, json=student, headers=headers)
+    student_id = str(create_response.json() ["student_id"])
+    # Now, update the student by ID
+    updated_student_data = {
+        "name": "Student Delta UPDATED",
+        "age": 24,
+        "grade": "B+"
+    }  
+    response = requests.put(f"{base_url}/{student_id}", json=updated_student_data, headers=headers)
+    assert response.status_code == 200, f"Failed to update student with ID {student_id}"
+    print(response.json())
+
 # Test function to delete a student by ID
 def test_delete_student_by_id():
     '''Delete a student by ID using Frans API.
