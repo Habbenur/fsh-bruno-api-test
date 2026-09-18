@@ -25,3 +25,9 @@ replay_pid*
 
 .Ds_Store
 
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
